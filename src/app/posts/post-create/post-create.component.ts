@@ -1,9 +1,10 @@
 import {Component, EventEmitter, Output } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, NgForm} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {Post} from '../post.model';
+import {NgIf} from '@angular/common';
 
 
 @Component({
@@ -13,6 +14,7 @@ import {Post} from '../post.model';
     MatInputModule,
     MatCardModule,
     MatButtonModule,
+    NgIf,
 
   ],
   templateUrl: './post-create.component.html',
@@ -26,8 +28,18 @@ export class PostCreateComponent {
   //onAddPost(postInput: HTMLTextAreaElement) {
   //  this.newPost = postInput.value;
   //}
+
+  /* DUAL WAY BINDING
   onAddPost() {
     const post: Post = {title: this.enteredTitle, content: this.enteredContent};
+    this.postCreated.emit(post);
+  }
+*/
+  onAddPost(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    const post: Post = {title: form.value.title, content: form.value.content};
     this.postCreated.emit(post);
   }
 }
